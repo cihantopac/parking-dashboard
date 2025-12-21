@@ -1,6 +1,6 @@
-# Parking Dashboard (Türkçe)
+﻿# Parking Dashboard (Türkçe)
 
-![Dashboard Preview](ss-full-view.png)
+![Dashboard Preview](screenshots/ss-full-view.png)
 
 ---
 
@@ -16,6 +16,7 @@ Bu repo iki ayrı kullanım için düzenlendi:
 ## Klasör Yapısı
 
 ```
+README.md
 html-css-js/
   index.html
   style.css
@@ -26,8 +27,7 @@ laravel-filament/
   dashboard.css
   dashboard.js
 
-readme/
-  README.md
+screenshots/
   ss-full-view.png
   ss-filter-bar.png
   ss-cards-herocard.png
@@ -42,8 +42,8 @@ readme/
 
 ## HTML + CSS + JS (Bağımsız)
 
-1) `../html-css-js/` klasöründeki dosyaları kullanın.
-2) `../html-css-js/index.html` dosyasını tarayıcıda açın.
+1) `html-css-js/` klasöründeki dosyaları kullanın.
+2) `html-css-js/index.html` dosyasını tarayıcıda açın.
 
 ---
 
@@ -53,9 +53,9 @@ Bu versiyon Filament 4 sayfasında doğru şekilde çalışması için ayrı dos
 
 ### 1) Dosyaları kopyala
 
-- `../laravel-filament/dashboard.blade.php` → `resources/views/filament/pages/dashboard.blade.php`
-- `../laravel-filament/dashboard.css` → `public/parking-dashboard/dashboard.css`
-- `../laravel-filament/dashboard.js` → `public/parking-dashboard/dashboard.js`
+- `laravel-filament/dashboard.blade.php` -> `resources/views/filament/pages/dashboard.blade.php`
+- `laravel-filament/dashboard.css` -> `public/parking-dashboard/dashboard.css`
+- `laravel-filament/dashboard.js` -> `public/parking-dashboard/dashboard.js`
 
 ### 2) Filament Page sınıfı
 
@@ -96,6 +96,28 @@ class Dashboard extends Page
 - Kartlar ve grafikler **tam genişlik** kullanır.
 - Tablolarda yatay kaydırma desteklenir.
 
+### Mobil Görünümler
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="screenshots/ss-mobile-view1.png" alt="Mobil Görünüm 1" width="100%"/>
+      <br/>
+      <sub>Mobil filtre bar ve kartlar.</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/ss-mobile-view2.png" alt="Mobil Görünüm 2" width="100%"/>
+      <br/>
+      <sub>Mobil tablo ve grafik yoğunluğu.</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/ss-mobile-view3.png" alt="Mobil Görünüm 3" width="100%"/>
+      <br/>
+      <sub>Mobil pasta grafik ve detay alanları.</sub>
+    </td>
+  </tr>
+</table>
+
 ---
 
 ## Görseller
@@ -103,50 +125,26 @@ class Dashboard extends Page
 <table>
   <tr>
     <td align="center">
-      <img src="ss-filter-bar.png" alt="Filtre Bar" width="100%"/>
+      <img src="screenshots/ss-filter-bar.png" alt="Filtre Bar" width="100%"/>
       <br/>
       <sub>Sticky ve mobilde açılır filtre bar.</sub>
     </td>
     <td align="center">
-      <img src="ss-cards-herocard.png" alt="Kartlar ve Hero" width="100%"/>
+      <img src="screenshots/ss-cards-herocard.png" alt="Kartlar ve Hero" width="100%"/>
       <br/>
-      <sub>Üst KPI kartları ve hero ciro bölümü.</sub>
+      <sub>Cost KPI kartları ve hero ciro bölümü.</sub>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="ss-paymentmethod-density.png" alt="Ödeme Yöntemleri ve Yoğunluk" width="100%"/>
+      <img src="screenshots/ss-paymentmethod-density.png" alt="Ödeme Yöntemleri ve Yoğunluk" width="100%"/>
       <br/>
       <sub>Ödeme yöntemleri tablosu ve saatlik yoğunluk.</sub>
     </td>
     <td align="center">
-      <img src="ss-parkpricing-cameras.png" alt="Tarife ve Kamera Analizi" width="100%"/>
+      <img src="screenshots/ss-parkpricing-cameras.png" alt="Tarife ve Kamera Analizi" width="100%"/>
       <br/>
       <sub>Ücret tarifesi ve kamera analizi.</sub>
-    </td>
-  </tr>
-</table>
-
----
-
-## Mobil Görünümler
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="ss-mobile-view1.png" alt="Mobil Görünüm 1" width="100%"/>
-      <br/>
-      <sub>Mobil filtre bar ve kartlar.</sub>
-    </td>
-    <td align="center">
-      <img src="ss-mobile-view2.png" alt="Mobil Görünüm 2" width="100%"/>
-      <br/>
-      <sub>Mobil tablo ve grafik yoğunluğu.</sub>
-    </td>
-    <td align="center">
-      <img src="ss-mobile-view3.png" alt="Mobil Görünüm 3" width="100%"/>
-      <br/>
-      <sub>Mobil pasta grafik ve detay alanları.</sub>
     </td>
   </tr>
 </table>

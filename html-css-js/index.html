@@ -70,7 +70,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="f-divider"></div>
+                <div class="filter-select-wrapper">
+                    <label class="f-label" for="mobileFilterSelect">D&#246;nem Se&#231;imi</label>
+                    <select class="filter-select" id="mobileFilterSelect" aria-label="D&#246;nem Se&#231;imi">
+                        <option value="" disabled selected>Tarih Aral&#305;&#287;&#305;</option>
+                        <optgroup label="&#350;imdiki D&#246;nem">
+                            <option value="daily">G&#252;nl&#252;k</option>
+                            <option value="weekly">Haftal&#305;k</option>
+                            <option value="monthly">Ayl&#305;k</option>
+                        </optgroup>
+                        <optgroup label="Ge&#231;mi&#351; D&#246;nem">
+                            <option value="last24">Son 24 Saat</option>
+                            <option value="last7">Son 7 G&#252;n</option>
+                            <option value="last30">Son 30 G&#252;n</option>
+                        </optgroup>
+                        <optgroup label="Uzun D&#246;nem">
+                            <option value="yearly">Y&#305;ll&#305;k</option>
+                            <option value="all">T&#252;m Zamanlar</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-right">
                 <div class="date-picker">
                     <button class="date-picker-btn" id="datePickerBtn" type="button" aria-expanded="false"
                         aria-haspopup="dialog">
@@ -88,14 +109,6 @@
                             <button class="date-apply" id="dateApplyBtn" type="button">Uygula</button>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="filter-right">
-                <div class="action-buttons">
-                    <button class="action-btn" id="printBtn"><i class="fa-solid fa-print"></i><span
-                            class="action-label">Yazdır</span></button>
-                    <button class="action-btn" id="exportBtn"><i class="fa-solid fa-file-excel"></i><span
-                            class="action-label">Excel</span></button>
                 </div>
             </div>
         </div>
@@ -189,8 +202,8 @@
         <!-- ROW 1: Hero Metric (Total Turnover) -->
         <div class="hero-card span-2 primary-gradient split-left" style="position: relative;">
             <div class="info-wrapper">
-                <button class="info-btn" style="color: rgba(255,255,255,0.8);"><i class="fa-solid fa-circle-info"></i></button>
-                <div class="tooltip-content" style="color: #333; background: #fff;">Bu alan, se&#231;ti&#287;in d&#246;nem boyunca kasaya giren toplam paray&#305; g&#246;sterir; yani &#252;cretli ge&#231;i&#351;lerden gelen gelirin tamam&#305;d&#305;r. Say&#305; b&#252;y&#252;d&#252;k&#231;e o d&#246;nemde daha fazla ciro yap&#305;ld&#305;&#287;&#305;n&#305; anlayabilirsin.</div>
+                <button class="info-btn"><i class="fa-solid fa-circle-info"></i></button>
+                <div class="tooltip-content">Bu alan, se&#231;ti&#287;in d&#246;nem boyunca kasaya giren toplam paray&#305; g&#246;sterir; yani &#252;cretli ge&#231;i&#351;lerden gelen gelirin tamam&#305;d&#305;r. Say&#305; b&#252;y&#252;d&#252;k&#231;e o d&#246;nemde daha fazla ciro yap&#305;ld&#305;&#287;&#305;n&#305; anlayabilirsin.</div>
             </div>
             <div class="hero-left">
                 <div class="hero-content">
@@ -212,10 +225,10 @@
                 <i class="fa-solid fa-sack-dollar"></i>
             </div>
         </div>
-        <div class="hero-card span-2 primary-gradient split-right" style="position: relative;">
+        <div class="hero-card hero-card-light span-2 split-right" style="position: relative;">
             <div class="info-wrapper">
-                <button class="info-btn" style="color: rgba(255,255,255,0.8);"><i class="fa-solid fa-circle-info"></i></button>
-                <div class="tooltip-content" style="color: #333; background: #fff;">Bu mini grafik, se&#231;ti&#287;in d&#246;nemin i&#231;indeki ciro hareketini saat saat g&#246;sterir; &#231;ubuklar y&#252;kseldik&#231;e o saatlerde daha fazla &#246;deme al&#305;nm&#305;&#351; demektir.</div>
+                <button class="info-btn"><i class="fa-solid fa-circle-info"></i></button>
+                <div class="tooltip-content">Bu mini grafik, se&#231;ti&#287;in d&#246;nemin i&#231;indeki ciro hareketini saat saat g&#246;sterir; &#231;ubuklar y&#252;kseldik&#231;e o saatlerde daha fazla &#246;deme al&#305;nm&#305;&#351; demektir.</div>
             </div>
             <div class="hero-right">
                 <div class="hero-right-card">

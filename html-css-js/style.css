@@ -178,7 +178,9 @@ body.embedded-mode {
 }
 
 .filter-card.shrink .f-label {
-    display: none;
+    display: inline-flex;
+    font-size: 10px;
+    letter-spacing: 0.3px;
 }
 
 .filter-card.shrink .f-chip {
@@ -808,6 +810,15 @@ body.embedded-mode {
     color: var(--primary);
 }
 
+.primary-gradient .tooltip-content {
+    background: #fff;
+    color: #333;
+}
+
+.primary-gradient .tooltip-content::after {
+    border-color: #fff transparent transparent transparent;
+}
+
 .tooltip-content {
     position: absolute;
     bottom: calc(100% + 10px);
@@ -968,6 +979,21 @@ body.embedded-mode {
     /* Reduced specific height requirement */
 }
 
+.hero-card-light {
+    background: #ffffff;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 10px 20px -6px rgba(15, 23, 42, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.hero-card-light:hover {
+    border-color: var(--primary);
+    box-shadow: 0 14px 26px -8px rgba(15, 23, 42, 0.18);
+    transform: translateY(-2px);
+}
+
 .hero-left {
     flex: 0 0 42%;
     display: flex;
@@ -998,6 +1024,11 @@ body.embedded-mode {
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.2);
     overflow: hidden;
+}
+
+.hero-card-light .hero-right-card {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
 }
 
 .hero-card.split-left .hero-left {
@@ -2094,4 +2125,116 @@ body.embedded-mode {
     height: 24px;
     background: var(--border);
     margin: 0 10px;
+}
+
+/* Info buttons and tooltip visibility */
+.info-wrapper {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.info-wrapper:hover .tooltip-content,
+.info-wrapper:focus-within .tooltip-content,
+.info-wrapper.active .tooltip-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Filter icon should read as a label, not a button */
+.filter-icon {
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    color: var(--text-sub);
+    cursor: default;
+}
+
+/* Sticky filter sizing */
+.filter-card.shrink .f-chip {
+    font-size: 13px;
+}
+
+.filter-card.shrink .date-picker-btn {
+    font-size: 13px;
+}
+
+/* Mobile filter dropdown */
+.filter-select-wrapper {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 200px;
+}
+
+.filter-select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+    background: #ffffff;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.15);
+}
+
+@media (max-width: 640px) {
+    .filter-card {
+        position: sticky;
+        top: 0;
+        z-index: 320;
+    }
+
+    .filter-mobile-header {
+        order: 1;
+    }
+
+    .filter-right {
+        order: 2;
+        width: 100%;
+    }
+
+    .filter-left {
+        order: 3;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        grid-template-areas: none;
+    }
+
+    .filter-groups {
+        display: none;
+    }
+
+    .filter-select-wrapper {
+        display: grid;
+    }
+
+    .filter-card.mobile-collapsed .filter-left {
+        display: none;
+    }
+
+    .filter-card.mobile-collapsed .filter-right {
+        display: flex;
+    }
+
+    .filter-card.mobile-collapsed {
+        gap: 8px;
+    }
+
+    .info-wrapper {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: none;
+    }
 }

@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let densityChart;
     let analysisChart;
     let baremChart;
+    let baremTotal = 0;
     let activePeriod = 'daily';
     let customRange = null;
 
@@ -298,7 +299,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function initHeroChart(data) {
         const chartDataSet = data || chartData.daily;
-        const failedData = chartDataSet.ciro.map((val, i) => Math.max(val - chartDataSet.tahsilat[i], 0));
+        const values = chartDataSet.ciro.map((value) => Math.round(value));
+
+        const barGradient = ctxRevenue.createLinearGradient(0, 0, 0, 180);
+        barGradient.addColorStop(0, 'rgba(56, 189, 248, 0.95)');
+        barGradient.addColorStop(1, 'rgba(59, 130, 246, 0.15)');
 
         const config = {
             type: 'bar',
@@ -306,24 +311,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 labels: chartDataSet.labels,
                 datasets: [
                     {
-                        label: 'Başarılı',
-                        data: chartDataSet.tahsilat,
-                        backgroundColor: '#22c55e',
-                        borderColor: '#ffffff',
+                        label: 'Ciro',
+                        data: values,
+                        backgroundColor: barGradient,
+                        borderColor: 'rgba(56, 189, 248, 0.9)',
                         borderWidth: 1,
-                        borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4 },
-                        barThickness: 16,
-                        stack: 'stack0'
-                    },
-                    {
-                        label: 'Başarısız',
-                        data: failedData,
-                        backgroundColor: '#ef4444',
-                        borderColor: '#ffffff',
-                        borderWidth: 1,
-                        borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
-                        barThickness: 16,
-                        stack: 'stack0'
+                        borderRadius: { topLeft: 14, topRight: 14 },
+                        borderSkipped: false,
+                        barThickness: 18,
+                        maxBarThickness: 26
                     }
                 ]
             },
@@ -335,35 +331,27 @@ document.addEventListener('DOMContentLoaded', function () {
                     tooltip: {
                         mode: 'index',
                         intersect: false,
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        titleColor: '#1e293b',
-                        bodyColor: '#1e293b',
-                        borderColor: '#e2e8f0',
+                        backgroundColor: '#0F172A',
+                        titleColor: '#F8FAFC',
+                        bodyColor: '#E2E8F0',
+                        borderColor: '#1E293B',
                         borderWidth: 1,
                         padding: 10,
-                        displayColors: true,
+                        displayColors: false,
                         callbacks: {
                             label: function (context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed.y !== null) {
-                                    label += currencyFormatter.format(context.parsed.y);
-                                }
-                                return label;
+                                const value = context.parsed.y || 0;
+                                return currencyFormatter.format(value);
                             }
                         }
                     }
                 },
                 scales: {
                     x: {
-                        stacked: true,
-                        display: true,
                         grid: { display: false, drawBorder: false },
                         ticks: {
-                            color: 'rgba(255, 255, 255, 0.7)',
-                            font: { size: 11, family: 'Inter', weight: '500' },
+                            color: '#94a3b8',
+                            font: { size: 10, weight: "600" },
                             maxRotation: 0,
                             autoSkip: true,
                             maxTicksLimit: 7
@@ -371,19 +359,29 @@ document.addEventListener('DOMContentLoaded', function () {
                         border: { display: false }
                     },
                     y: {
-                        stacked: true,
-                        display: false,
-                        grid: { display: false },
-                        border: { display: false }
+                        beginAtZero: true,
+                        grid: { color: '#E2E8F0', drawBorder: false },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: { size: 10 },
+                            callback: function (value) {
+                                if (value >= 1000000) {
+                                    return `${Math.round(value / 1000000)}M`;
+                                }
+                                if (value >= 1000) {
+                                    return `${Math.round(value / 1000)}k`;
+                                }
+                                return value;
+                            }
+                        }
                     }
                 },
                 interaction: {
-                    mode: 'nearest',
-                    axis: 'x',
+                    mode: 'index',
                     intersect: false
                 },
                 animation: {
-                    duration: 800,
+                    duration: 700,
                     easing: 'easeOutQuart'
                 }
             }
@@ -549,71 +547,121 @@ document.addEventListener('DOMContentLoaded', function () {
         const ctxBarem = document.getElementById('baremPieChart');
         if (!ctxBarem) return;
 
-        const baremLabelsPlugin = {
-            id: 'baremLabels',
-            afterDatasetsDraw(chart) {
-                const { ctx, data } = chart;
-                const meta = chart.getDatasetMeta(0);
+        const datasetValues = dataOverride || baremData[periodKey] || baremData.daily;
+
+        const baremCenterText = {
+            id: 'baremCenterText',
+            afterDraw(chart) {
+                const { ctx, chartArea } = chart;
+                const pluginOptions = chart.options.plugins?.baremCenterText;
+                if (!chartArea || !pluginOptions) return;
+                const centerX = (chartArea.left + chartArea.right) / 2;
+                const centerY = (chartArea.top + chartArea.bottom) / 2;
+                const value = pluginOptions.value || 0;
+
                 ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#0F172A';
+                ctx.font = '700 26px Outfit, sans-serif';
+                ctx.fillText(numberFormatter.format(value), centerX, centerY - 6);
+                ctx.fillStyle = '#64748B';
                 ctx.font = '600 12px Inter, sans-serif';
+                ctx.fillText(pluginOptions.label || 'Arac', centerX, centerY + 16);
+                ctx.restore();
+            }
+        };
+
+        const baremSegmentLabels = {
+            id: 'baremSegmentLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx } = chart;
+                const meta = chart.getDatasetMeta(0);
+                if (!meta || !meta.data) return;
+                const data = chart.data.datasets[0].data || [];
+                const total = data.reduce((sum, value) => sum + value, 0);
+                if (!total) return;
+
+                ctx.save();
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+                ctx.font = '600 11px Inter, sans-serif';
+                ctx.shadowColor = 'rgba(15, 23, 42, 0.35)';
                 ctx.shadowBlur = 4;
 
                 meta.data.forEach((arc, index) => {
-                    const label = data.labels[index];
-                    if (!label) return;
+                    const value = data[index] || 0;
+                    const percent = (value / total) * 100;
+                    if (percent < 4) return;
                     const point = arc.getCenterPoint();
-                    ctx.fillText(label, point.x, point.y);
+                    ctx.fillText(`${Math.round(percent)}%`, point.x, point.y);
                 });
 
                 ctx.restore();
             }
         };
 
-        const datasetValues = dataOverride || baremData[periodKey] || baremData.daily;
-
         if (baremChart) {
             baremChart.data.datasets[0].data = datasetValues;
+            baremChart.options.plugins.baremCenterText.value = baremTotal;
             baremChart.update();
             return;
         }
 
         baremChart = new Chart(ctxBarem.getContext('2d'), {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: ['0-2 Saat', '2-4 Saat', '4-8 Saat', '8-12 Saat', '12+ Saat'],
                 datasets: [{
                     data: datasetValues,
                     backgroundColor: [
-                        '#10B981',
-                        '#0F172A',
-                        '#64748B',
-                        '#0066FF',
-                        '#8B5CF6'
+                        '#38BDF8',
+                        '#6366F1',
+                        '#A855F7',
+                        '#22C55E',
+                        '#EF4444'
                     ],
-                    borderWidth: 2,
+                    borderWidth: 6,
                     borderColor: '#ffffff',
-                    hoverOffset: 8
+                    hoverOffset: 6
                 }]
             },
-            plugins: [baremLabelsPlugin],
+            plugins: [baremCenterText, baremSegmentLabels],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '72%',
                 plugins: {
+                    baremCenterText: {
+                        value: baremTotal,
+                        label: 'Arac'
+                    },
                     legend: {
                         position: 'right',
                         labels: {
                             usePointStyle: true,
-                            font: {
-                                size: 12
-                            }
+                            boxWidth: 8,
+                            padding: 14,
+                            color: '#475569',
+                            font: { size: 12, weight: '600' }
                         }
                     },
-                    tooltip: { enabled: false }
+                    tooltip: {
+                        backgroundColor: '#0F172A',
+                        titleColor: '#F8FAFC',
+                        bodyColor: '#E2E8F0',
+                        borderColor: '#1E293B',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function (context) {
+                                const value = context.parsed || 0;
+                                const total = context.dataset.data.reduce((sum, val) => sum + val, 0);
+                                const percent = total ? (value / total) * 100 : 0;
+                                return `${context.label}: %${percent.toFixed(1)}`;
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -628,6 +676,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const totals = getTotalsFromData(data, totalMode);
         const totalPass = isCustom ? customRange.passTotal : (passTotals[baseKey] || passTotals.daily);
         const passSplit = getPassSplit(totalPass);
+        baremTotal = totalPass;
 
         const successAmount = totals.tahsilatTotal;
         const gapAmount = Math.max(totals.ciroTotal - successAmount, 0);
@@ -733,6 +782,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const datePicker = document.querySelector('.date-picker');
     const datePickerBtn = document.getElementById('datePickerBtn');
     const datePickerLabel = document.getElementById('datePickerLabel');
+    const mobileFilterSelect = document.getElementById('mobileFilterSelect');
     const dateStartInput = document.getElementById('dateStart');
     const dateEndInput = document.getElementById('dateEnd');
     const dateApplyBtn = document.getElementById('dateApplyBtn');
@@ -759,6 +809,9 @@ document.addEventListener('DOMContentLoaded', function () {
         filterChips.forEach((chip) => {
             chip.classList.toggle('active', !isCustom && chip.dataset.filter === normalized);
         });
+        if (mobileFilterSelect) {
+            mobileFilterSelect.value = isCustom ? '' : normalized;
+        }
         updateDashboard(normalized);
         syncDateLabel(normalized);
     };
@@ -812,6 +865,15 @@ document.addEventListener('DOMContentLoaded', function () {
             setActivePeriod(periodKey);
         });
     });
+
+    if (mobileFilterSelect) {
+        mobileFilterSelect.addEventListener('change', (event) => {
+            const periodKey = event.target.value;
+            if (periodKey) {
+                setActivePeriod(periodKey);
+            }
+        });
+    }
 
     if (datePickerBtn && datePicker) {
         datePickerBtn.addEventListener('click', (event) => {
@@ -904,16 +966,20 @@ document.addEventListener('DOMContentLoaded', function () {
     attachClickThrough('.clickable-card');
 
     // --- Info Button Logic ---
-    const infoBtns = document.querySelectorAll('.info-btn');
-    infoBtns.forEach(btn => {
+    const infoWrappers = document.querySelectorAll('.info-wrapper');
+    infoWrappers.forEach((wrapper) => {
+        const btn = wrapper.querySelector('.info-btn');
+        if (!btn) return;
         btn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
-            const wrapper = btn.closest('.info-wrapper');
-            // Close others
-            document.querySelectorAll('.info-wrapper.active').forEach(w => {
-                if (w !== wrapper) w.classList.remove('active');
+            document.querySelectorAll('.info-wrapper.active').forEach((activeWrapper) => {
+                if (activeWrapper !== wrapper) activeWrapper.classList.remove('active');
             });
             wrapper.classList.toggle('active');
+        });
+        wrapper.addEventListener('mouseleave', () => {
+            wrapper.classList.remove('active');
         });
     });
 

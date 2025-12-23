@@ -816,7 +816,9 @@ document.addEventListener('DOMContentLoaded', function () {
         syncDateLabel(normalized);
     };
 
-    const isMobileView = () => window.matchMedia('(max-width: 640px)').matches;
+    const isMobileView = () =>
+        window.matchMedia('(max-width: 640px)').matches ||
+        window.matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
 
     const syncMobileFilterState = () => {
         if (!filterCard) return;

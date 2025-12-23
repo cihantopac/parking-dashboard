@@ -1723,12 +1723,68 @@
     }
 
     .filter-card {
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        padding: 12px 16px;
+        gap: 10px;
+    }
+
+    .filter-left {
+        width: auto;
+        flex: 1 1 0;
+        min-width: 0;
         flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .filter-groups {
+        flex-wrap: wrap;
+        white-space: normal;
+        gap: 8px;
+    }
+
+    .f-group {
+        flex-wrap: wrap;
+        white-space: normal;
+        gap: 6px;
+    }
+
+    .f-chips {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .f-divider {
+        display: none;
+    }
+
+    .filter-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 14px;
+    }
+
+    .f-label {
+        font-size: 10px;
+        letter-spacing: 0.3px;
+    }
+
+    .f-chip {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .date-picker-btn {
+        padding: 6px 10px;
+        font-size: 11px;
     }
 
     .filter-right {
-        width: 100%;
+        width: auto;
         justify-content: flex-end;
+        flex-shrink: 0;
+        align-self: flex-start;
     }
 
     .chart-panel.span-3 {
@@ -1745,6 +1801,208 @@
         /* Actually in 2-col grid, span-2 means full width. span-1 means half. */
         /* Let's keep them side-by-side in 2-col mode if possible using their span-2 class which effectively becomes full width if grid is 2 cols. 
            Wait, if grid is 2 cols, span-2 fills the row. So they will stack full width. */
+    }
+}
+
+@media (max-width: 1200px) and (orientation: landscape) {
+    .filter-card {
+        align-items: center;
+        padding: 10px 14px;
+        gap: 8px;
+    }
+
+    .filter-left {
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .filter-groups {
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        gap: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .filter-groups::-webkit-scrollbar {
+        height: 0;
+    }
+
+    .f-group {
+        flex-wrap: nowrap;
+        gap: 6px;
+    }
+
+    .f-chips {
+        flex-wrap: nowrap;
+        gap: 6px;
+    }
+
+    .f-label {
+        font-size: 9px;
+    }
+
+    .f-chip {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+
+    .date-picker-btn {
+        font-size: 10px;
+        padding: 5px 8px;
+        min-width: 0;
+        max-width: 160px;
+    }
+
+    #datePickerLabel {
+        display: inline-block;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 1200px) and (max-height: 500px) {
+    .filter-card {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+
+    .filter-left {
+        gap: 6px;
+    }
+
+    .filter-groups {
+        gap: 6px;
+    }
+
+    .f-group {
+        gap: 4px;
+    }
+
+    .f-chips {
+        gap: 4px;
+    }
+
+    .filter-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .f-label {
+        font-size: 8px;
+        letter-spacing: 0.2px;
+    }
+
+    .f-chip {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+
+    .date-picker-btn {
+        font-size: 9px;
+        padding: 4px 6px;
+        gap: 6px;
+        min-width: 0;
+        max-width: 130px;
+    }
+
+    #datePickerLabel {
+        display: inline-block;
+        max-width: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+    .filter-card {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .filter-mobile-header {
+        display: flex;
+        width: 100%;
+    }
+
+    .filter-mobile-text {
+        flex: 1;
+    }
+
+    .filter-right {
+        order: 2;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .filter-left {
+        order: 3;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        grid-template-areas: none;
+    }
+
+    .filter-left .filter-icon {
+        display: none;
+    }
+
+    .filter-groups {
+        display: none;
+    }
+
+    .filter-select-wrapper {
+        display: grid;
+        width: 100%;
+    }
+
+    .date-picker {
+        width: 100%;
+    }
+
+    .date-picker-btn {
+        width: 100%;
+        justify-content: space-between;
+        max-width: none;
+    }
+
+    .date-dropdown {
+        left: 0;
+        right: 0;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .filter-card.mobile-collapsed .filter-left {
+        display: none;
+    }
+
+    .filter-card.mobile-collapsed .filter-right {
+        display: flex;
+    }
+
+    .filter-card.mobile-collapsed {
+        gap: 8px;
+    }
+
+    .filter-card.mobile-collapsed .filter-toggle i {
+        transform: rotate(0deg);
+    }
+
+    .filter-card:not(.mobile-collapsed) .filter-toggle i {
+        transform: rotate(180deg);
     }
 }
 
@@ -2222,5 +2480,43 @@
 
     .filter-card.mobile-collapsed {
         gap: 8px;
+    }
+}
+
+@media (max-width: 1200px) and (orientation: landscape) {
+    .filter-card.shrink .filter-icon {
+        display: none;
+    }
+
+    .filter-card.shrink .f-label {
+        display: none;
+    }
+
+    .filter-card.shrink .f-divider {
+        display: none;
+    }
+
+    .filter-card.shrink .f-chip {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+
+    .filter-card.shrink .date-picker-btn {
+        font-size: 9px;
+        padding: 4px 6px;
+    }
+
+    .filter-card.shrink #datePickerLabel {
+        max-width: 60px;
+    }
+}
+
+@media (max-width: 1200px) and (max-height: 500px) {
+    .filter-card.shrink #datePickerLabel {
+        display: none;
+    }
+
+    .filter-card.shrink .date-picker-btn {
+        padding: 4px 6px;
     }
 }
